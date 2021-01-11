@@ -1,0 +1,50 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://character_zombie_sheetHD.png" type="Texture" id=1]
+[ext_resource path="res://PlayerZombie.gd" type="Script" id=2]
+
+[sub_resource type="CapsuleShape2D" id=1]
+radius = 16.0
+height = 32.0
+
+[sub_resource type="Animation" id=2]
+resource_name = "Jump"
+length = 0.3
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("character_zombie_sheetHD:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 1,
+"values": [ 0, 27, 28 ]
+}
+
+[node name="PlayerZombie" type="KinematicBody2D"]
+script = ExtResource( 2 )
+
+[node name="character_zombie_sheetHD" type="Sprite" parent="."]
+position = Vector2( 0, -72 )
+texture = ExtResource( 1 )
+vframes = 5
+hframes = 9
+frame = 27
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2( 0, 40 )
+rotation = 1.5708
+shape = SubResource( 1 )
+
+[node name="RayCast2D" type="RayCast2D" parent="."]
+enabled = true
+cast_to = Vector2( 0, 85 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+anims/Jump = SubResource( 2 )
+
+[node name="AnimationTree" type="AnimationTree" parent="."]
+anim_player = NodePath("../AnimationPlayer")
